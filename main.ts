@@ -59,6 +59,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+function initp1 () {
+	
+}
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     rotateFlag = "nothing"
     grid.move(cursor, -1, 0)
@@ -351,15 +354,35 @@ function isOverlapping (boatSpriteArrayPX: Sprite[][]) {
             }
         }
     }
+    mySprite = sprites.create(img`
+        . . . . . . . . b b . . . . . . 
+        . . . . . . . b 9 1 b . . . . . 
+        . . b b . . . b 9 9 b . . . . . 
+        . b 9 1 b . . b b b . . b b b . 
+        . b 3 9 b . b b b b . b 9 9 1 b 
+        . b b b b b 9 9 1 1 b b 3 9 9 b 
+        . . . . b 9 d 9 1 1 b b b b b . 
+        . . . . b 5 3 9 9 9 b . . . . . 
+        . . b b b 5 3 3 d 9 b . . . . . 
+        . b 5 1 b b 5 5 9 b b b b . . . 
+        . b 5 5 b b b b b b 3 9 9 3 . . 
+        . b b b b b b b . b 9 1 1 9 b . 
+        . . . b 5 5 1 b . b 9 1 1 9 b . 
+        . . . b 5 5 5 b . b 3 9 9 3 b . 
+        . . . . b b b . . . b b b b . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Projectile)
+    grid.place(mySprite, grid.getLocation(cursor))
     return 0
 }
+let mySprite: Sprite = null
 let boomSprite: Sprite = null
 let iterator = 0
+let moveBoatFlag = 0
 let boatRotateArrayP2: string[] = []
 let boatSpriteArrayP2: Sprite[][] = []
 let shadowCursor: Sprite = null
 let cursor: Sprite = null
-let moveBoatFlag = 0
 let boatSpriteArrayP1: Sprite[][] = []
 let boatRotateArrayP1: string[] = []
 let currentBoat = 0
@@ -533,53 +556,7 @@ sprites.create(img`
 for (let boatIterator4 of boatSpriteArrayP1) {
     makeBoatInvisible(boatIterator4)
 }
-moveBoatFlag = 1
-cursor = sprites.create(img`
-    3 3 3 3 3 . . . . . . 3 3 3 3 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 . . . . . . . . . . . . . . 3 
-    3 3 3 3 3 . . . . . . 3 3 3 3 3 
-    `, SpriteKind.Cursor)
-shadowCursor = sprites.create(img`
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    ........................
-    `, SpriteKind.Cursor)
-grid.snap(cursor)
-grid.snap(shadowCursor)
+let list: number[] = []
 game.onUpdate(function () {
     if (moveBoatFlag < 3) {
         updatePX(currentPlayer)
